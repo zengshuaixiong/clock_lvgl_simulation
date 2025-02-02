@@ -1,3 +1,7 @@
+#### 这是lvgl在Vscode上的仿真环境搭建，仅仅只是照着工程修改。请根据以下的原来的仓库参考进行组建。lvgl的版本可以在子分支进行切换，经过测试ver8.3.10和ver8.1.0通过简单的分支切换可以直接使用。主分支master为lvgl8.1.0版本。
+
+------
+
 # Simulator project for LVGL embedded GUI Library
 
 The [LVGL](https://github.com/lvgl/lvgl) is written mainly for microcontrollers and embedded systems however you can run the library **on your PC** as well without any embedded hardware. The code written on PC can be simply copied when your are using an embedded system.
