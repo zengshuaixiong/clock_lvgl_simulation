@@ -207,10 +207,29 @@ static bool buffer_set_time = false;
 
 
 
+// 定义窗口数量
+#define NUM_WINDOWS 3
+
+// 全局变量：窗口对象和当前窗口索引
+static lv_obj_t* windows[NUM_WINDOWS];
+static int current_window = 0;
 
 
 
 
+// 创建窗口函数
+lv_obj_t* create_window(lv_obj_t* parent, const char* text, lv_color_t bg_color) {
+    lv_obj_t* win = lv_obj_create(parent);
+    lv_obj_set_size(win, LV_HOR_RES, LV_VER_RES);
+    lv_obj_set_style_bg_color(win, bg_color, 0); // 设置背景颜色
+
+    // 创建标签
+    lv_obj_t* label = lv_label_create(win);
+    lv_label_set_text(label, text);
+    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+
+    return win;
+}
 
 
 
@@ -218,6 +237,40 @@ static bool buffer_set_time = false;
 static void set_x_anim(void* obj, int32_t value) {
     lv_obj_set_x((lv_obj_t*)obj, value);
 }
+
+static void switch_window(int direction) {
+    int target_window = current_window + direction;
+
+    // 处理边界
+    if (target_window < 0) {
+        target_window = NUM_WINDOWS - 1;
+    } else if (target_window >= NUM_WINDOWS) {
+        target_window = 0;
+    }
+
+    // 计算目标窗口的 X 坐标
+    int target_x = direction * LV_HOR_RES;
+
+    // 动画：当前窗口向左或向右移出
+    lv_anim_t a;
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, windows[current_window]);
+    lv_anim_set_values(&a, lv_obj_get_x(windows[current_window]), target_x);
+    lv_anim_set_exec_cb(&a, set_x_anim);
+    lv_anim_set_time(&a, 300);
+    lv_anim_start(&a);
+
+    // 动画：目标窗口从左侧或右侧进入
+    lv_anim_set_var(&a, windows[target_window]);
+    lv_anim_set_values(&a, -target_x, 0);
+    lv_anim_start(&a);
+
+    // 更新当前窗口索引
+    current_window = target_window;
+}
+
+
+
 
 // 手势事件处理函数
 static void event_handler(lv_event_t* e) {
@@ -227,40 +280,14 @@ static void event_handler(lv_event_t* e) {
     lv_indev_get_vect(indev, &point); // 获取滑动向量
 
     if (e->code == LV_EVENT_GESTURE) {
-        lv_obj_t* win1 = lv_obj_get_child(scr, 0); // 获取第一个窗口
-        lv_obj_t* win2 = lv_obj_get_child(scr, 1); // 获取第二个窗口
-
         if (point.x < -50) { // 向左滑动
-            // 动画：win1 向左移出，win2 从右侧进入
-            lv_anim_t a;
-            lv_anim_init(&a);
-            lv_anim_set_var(&a, win1);
-            lv_anim_set_values(&a, lv_obj_get_x(win1), -WIN_WIDTH);
-            lv_anim_set_exec_cb(&a, set_x_anim);
-            lv_anim_set_time(&a, 300);
-            lv_anim_start(&a);
-
-            lv_anim_set_var(&a, win2);
-            lv_anim_set_values(&a, lv_obj_get_x(win2), 0);
-            lv_anim_start(&a);
+            switch_window(1); // 切换到下一个窗口
         } else if (point.x > 50) { // 向右滑动
-            // 动画：win1 从左侧进入，win2 向右移出
-            lv_anim_t a;
-            lv_anim_init(&a);
-            lv_anim_set_var(&a, win1);
-            lv_anim_set_values(&a, lv_obj_get_x(win1), 0);
-            lv_anim_set_exec_cb(&a, set_x_anim);
-            lv_anim_set_time(&a, 300);
-            lv_anim_start(&a);
-
-            lv_anim_set_var(&a, win2);
-            lv_anim_set_values(&a, lv_obj_get_x(win2), WIN_WIDTH);
-            lv_anim_start(&a);
+            switch_window(-1); // 切换到上一个窗口
         }
     }
 }
 
-    // lv_label_set_text(label1, text1);
 
     // 定义直线的起点和终点坐标
     static lv_point_t line_points_hour[] = {
@@ -358,6 +385,13 @@ void lv_example_get_started_1111(void)
 // 获取默认屏幕
     lv_obj_t* scr = lv_scr_act();
 
+    // 创建三个窗口
+    // windows[0] = create_window(scr, "Window 1", lv_color_hex(0xFFAAAA)); // 浅红色背景
+    // windows[1] = create_window(scr, "Window 2", lv_color_hex(0xAAFFAA)); // 浅绿色背景
+    // windows[2] = create_window(scr, "Window 3", lv_color_hex(0xAAAAFF)); // 浅蓝色背景
+
+
+
     lv_obj_t* win1 = lv_obj_create(scr);
     lv_obj_set_size(win1, WIN_WIDTH, WIN_HEIGHT);
     lv_obj_set_style_bg_color(win1, lv_color_hex(0xFFFFFF), 0); // 设置背景颜色
@@ -367,6 +401,15 @@ void lv_example_get_started_1111(void)
     lv_obj_set_size(win2, WIN_WIDTH, WIN_HEIGHT);
     lv_obj_set_style_bg_color(win2, lv_color_hex(0xFFFFFF), 0); // 设置背景颜色
     lv_obj_set_x(win2, WIN_WIDTH); // 初始位置在屏幕右侧
+
+    lv_obj_t* win3 = lv_obj_create(scr);
+    lv_obj_set_size(win3, WIN_WIDTH, WIN_HEIGHT);
+    lv_obj_set_style_bg_color(win3, lv_color_hex(0xFFFFFF), 0); // 设置背景颜色
+    lv_obj_set_x(win3, WIN_WIDTH); // 初始位置在屏幕右侧
+
+    windows[0] = win1;
+    windows[1] = win2;
+    windows[2] = win3;
 
      // 创建小时滚盘
     roller_hour = lv_roller_create(win2);
@@ -512,10 +555,13 @@ void lv_example_get_started_1111(void)
     lv_obj_align(label11, LV_ALIGN_CENTER, (LABEL_LENGTH)*sin(330.0 * M_PI / 180.0), -(LABEL_LENGTH)*cos(330.0 * M_PI / 180.0)); // 位置显示
 
 
+    // 初始化窗口位置
+    lv_obj_set_x(windows[0], 0); // 第一个窗口在屏幕左侧
+    lv_obj_set_x(windows[1], LV_HOR_RES); // 第二个窗口在屏幕右侧
+    lv_obj_set_x(windows[2], 2*LV_HOR_RES); // 第三个窗口在屏幕右侧
+
     // 添加手势事件处理
     lv_obj_add_event_cb(scr, event_handler, LV_EVENT_GESTURE, NULL);
-
-
 
     update_clock_hands(11,30,45);
     // 创建定时器，每 100ms 更新一次
