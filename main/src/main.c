@@ -461,16 +461,17 @@ void lv_example_get_started_1111(void)
     windows[1] = win2;
     windows[2] = win3;
 
-    lv_obj_t* button_disable = lv_btn_create(win2);
-    lv_obj_align(button_disable, LV_ALIGN_CENTER,0,WIN_HEIGHT);
+    lv_obj_t* button_disable = lv_btn_create(win1);
+    lv_obj_align(button_disable, LV_ALIGN_CENTER,0,0);
+    lv_obj_add_flag(button_disable, LV_OBJ_FLAG_HIDDEN);
 
-    lv_obj_t* label_txt = lv_label_create(win2);
+    lv_obj_t* label_txt = lv_label_create(win1);
     lv_label_set_text(label_txt, "GOOD GOOD STDUY"); // 设置文本内容
     lv_obj_set_style_text_color(label_txt, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label_txt, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label_txt, LV_ALIGN_CENTER, 0, 0+30); // 位置显示
 
-    lv_obj_t* label_txt2 = lv_label_create(win2);
+    lv_obj_t* label_txt2 = lv_label_create(win1);
     lv_label_set_text(label_txt2, "DAY DAY UP"); // 设置文本内容
     lv_obj_set_style_text_color(label_txt2, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label_txt2, &LABEL_FONT, 0); // 字体大小
@@ -481,7 +482,7 @@ void lv_example_get_started_1111(void)
       uint8_t grid_dispay = 57;
       uint8_t y_off = 40;
       uint8_t x_off = 15;
-      button_dispay[i] = lv_btn_create(win2);
+      button_dispay[i] = lv_btn_create(win1);
       lv_obj_set_size(button_dispay[i], 30, 10);
       switch (i%7)
       {
@@ -537,7 +538,7 @@ void lv_example_get_started_1111(void)
     lv_obj_add_event_cb(roller_second, roller_event_handler, LV_EVENT_VALUE_CHANGED, NULL);
 
      // 创建圆形钟表背景
-    lv_obj_t * clock = lv_obj_create(win1);
+    lv_obj_t * clock = lv_obj_create(win2);
 
     // 设置圆形的宽度和高度相等，确保它是一个圆形
     lv_obj_set_size(clock, CLOCK_RADIUS*2, CLOCK_RADIUS*2);  // 250x250 像素的钟表背景
@@ -559,7 +560,7 @@ void lv_example_get_started_1111(void)
     lv_obj_add_style(clock, &style, 0);
 
     // 创建一条直线
-    hour_hand = lv_line_create(win1);
+    hour_hand = lv_line_create(win2);
     // 设置直线的点坐标
     lv_line_set_points(hour_hand, line_points_hour, 2);
     // 设置直线的样式
@@ -568,7 +569,7 @@ void lv_example_get_started_1111(void)
     lv_obj_set_style_line_opa(hour_hand, LV_OPA_COVER, 0);     // 完全不透明
 
     // 创建一条直线
-    minute_hand = lv_line_create(win1);
+    minute_hand = lv_line_create(win2);
     // 设置直线的点坐标
     lv_line_set_points(minute_hand, line_points_min, 2);
     // 设置直线的样式
@@ -577,7 +578,7 @@ void lv_example_get_started_1111(void)
     lv_obj_set_style_line_opa(minute_hand, LV_OPA_COVER, 0);     // 完全不透明
 
     // 创建一条直线
-    second_hand = lv_line_create(win1);
+    second_hand = lv_line_create(win2);
     // 设置直线的点坐标
     lv_line_set_points(second_hand, line_points_sec, 2);
     // 设置直线的样式
@@ -586,73 +587,73 @@ void lv_example_get_started_1111(void)
     lv_obj_set_style_line_opa(second_hand, LV_OPA_COVER, 0);     // 完全不透明
 
     // 创建标签并设置文本
-    lv_obj_t* label12 = lv_label_create(win1);
+    lv_obj_t* label12 = lv_label_create(win2);
     lv_label_set_text(label12, "12"); // 设置文本内容
     lv_obj_set_style_text_color(label12, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label12, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label12, LV_ALIGN_CENTER, 0, -(LABEL_LENGTH)); // 位置显示
 
-    lv_obj_t* label3 = lv_label_create(win1);
+    lv_obj_t* label3 = lv_label_create(win2);
     lv_label_set_text(label3, "3"); // 设置文本内容
     lv_obj_set_style_text_color(label3, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label3, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label3, LV_ALIGN_CENTER, LABEL_LENGTH, 0); // 位置显示
 
-    lv_obj_t* label6 = lv_label_create(win1);
+    lv_obj_t* label6 = lv_label_create(win2);
     lv_label_set_text(label6, "6"); // 设置文本内容
     lv_obj_set_style_text_color(label6, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label6, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label6, LV_ALIGN_CENTER, 0, LABEL_LENGTH); // 位置显示
 
-    lv_obj_t* label9 = lv_label_create(win1);
+    lv_obj_t* label9 = lv_label_create(win2);
     lv_label_set_text(label9, "9"); // 设置文本内容
     lv_obj_set_style_text_color(label9, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label9, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label9, LV_ALIGN_CENTER, -(LABEL_LENGTH), 0); // 位置显示
 
-    lv_obj_t* label1 = lv_label_create(win1);
+    lv_obj_t* label1 = lv_label_create(win2);
     lv_label_set_text(label1, "1"); // 设置文本内容
     lv_obj_set_style_text_color(label1, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label1, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label1, LV_ALIGN_CENTER, (LABEL_LENGTH)*sin(30.0 * M_PI / 180.0), -(LABEL_LENGTH)*cos(30.0 * M_PI / 180.0)); // 位置显示
 
-    lv_obj_t* label2 = lv_label_create(win1);
+    lv_obj_t* label2 = lv_label_create(win2);
     lv_label_set_text(label2, "2"); // 设置文本内容
     lv_obj_set_style_text_color(label2, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label2, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label2, LV_ALIGN_CENTER, (LABEL_LENGTH)*sin(60.0 * M_PI / 180.0), -(LABEL_LENGTH)*cos(60.0 * M_PI / 180.0)); // 位置显示
 
-    lv_obj_t* label4 = lv_label_create(win1);
+    lv_obj_t* label4 = lv_label_create(win2);
     lv_label_set_text(label4, "4"); // 设置文本内容
     lv_obj_set_style_text_color(label4, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label4, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label4, LV_ALIGN_CENTER, (LABEL_LENGTH)*sin(120.0 * M_PI / 180.0), -(LABEL_LENGTH)*cos(120.0 * M_PI / 180.0)); // 位置显示
 
-    lv_obj_t* label5 = lv_label_create(win1);
+    lv_obj_t* label5 = lv_label_create(win2);
     lv_label_set_text(label5, "5"); // 设置文本内容
     lv_obj_set_style_text_color(label5, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label5, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label5, LV_ALIGN_CENTER, (LABEL_LENGTH)*sin(150.0 * M_PI / 180.0), -(LABEL_LENGTH)*cos(150.0 * M_PI / 180.0)); // 位置显示
 
-    lv_obj_t* label7 = lv_label_create(win1);
+    lv_obj_t* label7 = lv_label_create(win2);
     lv_label_set_text(label7, "7"); // 设置文本内容
     lv_obj_set_style_text_color(label7, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label7, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label7, LV_ALIGN_CENTER, (LABEL_LENGTH)*sin(210.0 * M_PI / 180.0), -(LABEL_LENGTH)*cos(210.0 * M_PI / 180.0)); // 位置显示
 
-    lv_obj_t* label8 = lv_label_create(win1);
+    lv_obj_t* label8 = lv_label_create(win2);
     lv_label_set_text(label8, "8"); // 设置文本内容
     lv_obj_set_style_text_color(label8, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label8, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label8, LV_ALIGN_CENTER, (LABEL_LENGTH)*sin(240.0 * M_PI / 180.0), -(LABEL_LENGTH)*cos(240.0 * M_PI / 180.0)); // 位置显示
 
-    lv_obj_t* label10 = lv_label_create(win1);
+    lv_obj_t* label10 = lv_label_create(win2);
     lv_label_set_text(label10, "10"); // 设置文本内容
     lv_obj_set_style_text_color(label10, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label10, &LABEL_FONT, 0); // 字体大小
     lv_obj_align(label10, LV_ALIGN_CENTER, (LABEL_LENGTH)*sin(300.0 * M_PI / 180.0), -(LABEL_LENGTH)*cos(300.0 * M_PI / 180.0)); // 位置显示
 
-    lv_obj_t* label11 = lv_label_create(win1);
+    lv_obj_t* label11 = lv_label_create(win2);
     lv_label_set_text(label11, "11"); // 设置文本内容
     lv_obj_set_style_text_color(label11, LABEL_COLOR, 0); // 文本颜色
     lv_obj_set_style_text_font(label11, &LABEL_FONT, 0); // 字体大小
